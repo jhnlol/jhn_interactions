@@ -1,6 +1,6 @@
 local Interactions = {}
-api = {}
-function api.CreateInteraction(name, data) 
+local Main = {}
+function Main.CreateInteraction(name, data) 
     if not data.pedName or not data.pedCoords or not data.displayName then
         print("Missing required parameters")
         return
@@ -17,14 +17,14 @@ function api.CreateInteraction(name, data)
         label = "Porozmawiaj",
         icon = "fa-solid fa-comment",
         onSelect = function()
-            api.openMenu(id)
+            Main.openMenu(id)
         end
     })
     local options = data.options or {}
 
     table.insert(Interactions, {id = id, name = name, ped = ped, options = options, pedId = pedId, displayName = data.displayName})
 end
-function api.openMenu(id) 
+function Main.openMenu(id) 
     local interaction = Interactions[id]
     local nuiOptions = {}
     for v, option in ipairs(interaction.options) do 
@@ -41,7 +41,7 @@ function api.openMenu(id)
     })
     SetNuiFocus(true, true)
 end
-api.CreateInteraction("example", {
+Main.CreateInteraction("example", {
     pedName = "a_m_y_indian_01",
     pedCoords = vector4(-751.2094, 5543.2578, 33.4857 -0.5, 115.6422),
     displayName = "Rybak",
@@ -61,7 +61,7 @@ api.CreateInteraction("example", {
         }
     }
 })
-exports("CreateInteraction", api.CreateInteraction)
+exports("CreateInteraction", Main.CreateInteraction)
 RegisterNUICallback("interact", function(data, cb) 
     local interaction = Interactions[data.interactionId]
     local option = interaction.options[data.actionId]
