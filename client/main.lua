@@ -61,6 +61,7 @@ api.CreateInteraction("example", {
         }
     }
 })
+exports("CreateInteraction", api.CreateInteraction)
 RegisterNUICallback("interact", function(data, cb) 
     local interaction = Interactions[data.interactionId]
     local option = interaction.options[data.actionId]
